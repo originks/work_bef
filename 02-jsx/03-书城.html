@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <script crossorigin src="https://unpkg.com/react@18/umd/react.development.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+    <script src="https://unpkg.com/babel-standalone@6/babel.min.js"></script>
+
+    <div id="root"></div>
+    <style>
+        .active {
+            color: red
+        }
+    </style>
+</body>
+
+<script type="text/babel">
+
+    class App extends React.Component {
+        constructor() {
+            super()
+            this.state = {
+                songs: ["七里香", "稻香", "告白气球"],
+                style: { color: "red" },
+                sign: 0
+            }
+        }
+        deal(index) {
+            this.setState({
+                sign: index
+            })
+        }
+        render() {
+            return (
+                <ul className="ulClass">
+                    {this.state.songs.map((song, index) => (<li onClick={() => this.deal(index)} className={(this.state.sign == index) ? "active" : ""} key={song}>{song}</li>))
+                    }
+                </ul>
+            )
+        }
+    }
+
+    const root = ReactDOM.createRoot(document.querySelector("#root"))
+    root.render(<App />)
+</script>
+
+</html>
