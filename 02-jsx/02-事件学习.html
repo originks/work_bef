@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <script crossorigin src="https://unpkg.com/react@18/umd/react.development.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+    <script src="https://unpkg.com/babel-standalone@6/babel.min.js"></script>
+
+    <div id="root"></div>
+    <style>
+        .bookTable {
+            width: 500px;
+            text-align: center;
+
+        }
+
+        .title {
+            font-weight: bold;
+            background-color: rgb(176, 172, 172);
+            height: 40px;
+        }
+    </style>
+</body>
+
+<script type="text/babel">
+
+    class App extends React.Component {
+        constructor() {
+            super()
+            this.state = {
+                books: [{ name: "七里香", date: "2006-9", price: 85, nums: 1 }, { name: "一路向北", date: "2002-9", price: 35, nums: 1 },
+                { name: "稻香", date: "2008-9", price: 150, nums: 1 },
+                { name: "晴天", date: "2002-9", price: 102, nums: 1 }]
+            }
+        }
+        del(index) {
+            let arr = this.state.books.map((book, item) => {
+                let obj = { ...book }
+                console.log(obj === book);
+                if (index == item && book.nums >= 1) {
+
+                    obj.nums--
+                }
+
+                return obj
+            })
+            this.setState({
+                books: arr
+            })
+        }
+        inc(index) {
+            let arr = this.state.books.map((book, item) => {
+                let obj = { ...book }
+                if (index == item) {
+                    obj.nums++
+                }
+                return obj
+            })
+            this.setState({
+                books: arr
+            })
+        }
+        delete(index) {
+            let arr = this.state.books.map((book, item) => {
+                let obj = { ...book }
+                return obj
+
+            })
+            arr.splice(index, 1)
+            console.log(arr);
+            this.setState({
+                books: arr
+            })
+        }
+        render() {
+            return (
+
+                <div>
+                    <table border="1" cellspacing="0" className="bookTable">
+                        <thead className="title">
+                            <td>序号</td>
+                            <td>书名</td>
+                            <td>出版日期</td>
+                            <td>价格</td>
+                            <td>购买数量</td>
+                            <td>操作</td>
+                        </thead>
+                        <tbody>
+                            {this.state.books.map((books, index) => <tr>
+                                <td>{index + 1}</td>
+                                <td>{"《" + books.name + "》"}</td>
+                                <td>{books.date}</td>
+                                <td>￥{books.nums * books.price}</td>
+                                <td><button onClick={() => this.del(index)}>-</button>{books.nums}<button onClick={() => this.inc(index)}>+</button></td>
+                                <td><button onClick={() => this.delete(index)}>delete</button></td>
+                            </tr>)}
+                        </tbody>
+                    </table>
+                    <h2>{"￥" + this.state.books.reduce((pre, cur) => {
+                        cur = pre + cur.price * cur.nums
+                        return cur
+                    }, 0)}</h2>
+                </div>
+
+
+            )
+        }
+    }
+
+    const root = ReactDOM.createRoot(document.querySelector("#root"))
+    root.render(<App />)
+</script>
+
+</html>
